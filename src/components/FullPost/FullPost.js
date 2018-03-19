@@ -7,7 +7,7 @@ class FullPost extends Component {
   deleteButtonHandler = () => {
     axios
       .delete(
-        "https://jsonplaceholder.typicode.com/posts/" + this.props.selectedId.id
+        "/posts/" + this.props.selectedId.id
       )
       .then(Response => {
         console.log(Response);

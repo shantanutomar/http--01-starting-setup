@@ -4,7 +4,7 @@ import Post from "../../components/Post/Post";
 import FullPost from "../../components/FullPost/FullPost";
 import NewPost from "../../components/NewPost/NewPost";
 import "./Blog.css";
-import axios from "axios";
+import axios from "../../Axios";
 
 class Blog extends Component {
   state = {
@@ -15,7 +15,7 @@ class Blog extends Component {
 
   componentDidMount = () => {
     axios
-      .get("https://jsonplaceholder.typicode.com/posts")
+      .get("/posts")
       .then(Response => {
         var posts = Response.data.slice(0, 4);
         var postsMapById = posts.reduce((prev, curEle) => {
