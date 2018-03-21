@@ -10,18 +10,20 @@ class NewPost extends Component {
     author: "Shantanu"
   };
 
+  componentDidMount = () => {
+    console.log(this.props);
+  };
+
   addPostHandler = () => {
     var data = {
       title: this.state.title,
       body: this.state.content,
       author: this.state.author
     };
-    axios
-      .post("/posts/", data)
-      .then(Response => {
-        console.log(Response);
-        alert("Data has been added !!");
-      });
+    axios.post("/posts/", data).then(Response => {
+      console.log(Response);
+      alert("Data has been added !!");
+    });
   };
 
   render() {
