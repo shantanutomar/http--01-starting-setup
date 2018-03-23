@@ -2,6 +2,9 @@ import React, { Component } from "react";
 import axios from "../../../Axios";
 import Post from "../../../components/Post/Post";
 import "./Posts.css";
+// import { NavLink } from "react-router-dom";
+import { Route } from "react-router-dom";
+import FullPost from "../FullPost/FullPost";
 
 class Posts extends Component {
   state = {
@@ -30,7 +33,8 @@ class Posts extends Component {
   };
 
   onPostClickHandler = postId => {
-    this.setState({ selectedPost: postId });
+    //this.setState({ selectedPost: postId });
+    this.props.history.push({ pathname: "/posts/" + postId });
   };
 
   render() {
@@ -38,16 +42,29 @@ class Posts extends Component {
       if (this.state.posts) {
         var posts = Object.values(this.state.posts).map(post => {
           return (
+            // This is one way of rendering page based on selected id. Alternative is using
+            // history.push method as done above
+            // <NavLink to={{ pathname: "/" + post.id }} key={post.id}>
             <Post
               key={post.id}
               title={post.title}
               author={post.author}
               Clicked={() => this.onPostClickHandler(post.id)}
             />
+            // </NavLink>
           );
         });
 
-        return <section className="Posts">{posts}</section>;
+        return (
+          <div>
+            <section className="Posts">{posts}</section>
+            <Route
+              path={this.props.match.url + "/:id"}
+              exact
+              component={FullPost}
+            />
+          </div>
+        );
       } else {
         return <p style={{ textAlign: "center" }}>Loading Data !!</p>;
       }

@@ -2,10 +2,15 @@ import React, { Component } from "react";
 
 import "./Blog.css";
 import Posts from "../Blog/Posts/Posts";
-import { Route, Link } from "react-router-dom";
+import { Route, NavLink, Switch, Redirect } from "react-router-dom";
 import NewPost from "../Blog/NewPost/NewPost";
+// import FullPost from "./FullPost/FullPost";
 
 class Blog extends Component {
+  state = {
+    auth: true
+  };
+
   render() {
     return (
       <div className="Blog">
@@ -13,26 +18,62 @@ class Blog extends Component {
           <nav>
             <ul>
               <li>
-                <Link to="/">Home</Link>
+                <NavLink
+                  to="/posts"
+                  activeClassName="active"
+                  activeStyle={{
+                    textDecoration: "underline"
+                  }}
+                >
+                  Posts
+                </NavLink>
               </li>
               <li>
-                <Link
+                <NavLink
                   to={{
+                    // pathname: this.props.match.url + "/new-post",
+                    // Above is how we can use the relative path : old path + new path
                     pathname: "/new-post",
                     search: "?xyz=true",
                     hash: "#submit"
                   }}
+                  activeStyle={{
+                    textDecoration: "underline"
+                  }}
                 >
                   New Post
-                </Link>
+                </NavLink>
               </li>
             </ul>
           </nav>
         </header>
         {/* <Route path="/" exact render={() => <h1>Hello</h1>} />
         <Route path="/" render={() => <h1>Hello2</h1>} /> */}
-        <Route path="/" exact component={Posts} />
-        <Route path="/new-post" component={NewPost} />
+        {/* Switch finds the most appropirate match and then renders the page
+        accordingly. There can be route outside the switch as well if we wlays want them to render */}
+        <Switch>
+          {/* By using auth here we are gaurding the url that if user is auth then only 
+          he can go to this new post page. This is how we gaurd route.
+          When user will click on new post it will go to "/" and then redirect 
+          will redirect it to "/posts" page  */}
+          {this.state.auth ? (
+            <Route path="/new-post" component={NewPost} />
+          ) : null}
+          <Route path="/posts" component={Posts} />
+
+          {/* Below is another way of handling 404 page error. below Route catches
+          every page which is ot found as there is no path property defined.
+          so we can route that everything to our defined component.
+          This cannot be used with below redirect though as it also 
+          uses path as "/" and either of 2 will work at a time in that case */}
+          {/* <Route render={() => <h1> Not found</h1>} /> */}
+
+          {/* In redirect from can only be used if u r inside 
+          switch element. Else we always need to redirect to - to */}
+          <Redirect from="/" to="/posts" />
+
+          {/* <Route path="/posts" component={Posts} /> */}
+        </Switch>
       </div>
     );
   }
