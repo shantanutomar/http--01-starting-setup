@@ -3,7 +3,17 @@ import React, { Component } from "react";
 import "./Blog.css";
 import Posts from "../Blog/Posts/Posts";
 import { Route, NavLink, Switch, Redirect } from "react-router-dom";
-import NewPost from "../Blog/NewPost/NewPost";
+
+// Below is the code of rendering the compoenent as per the requirment
+// and will not always be loaded. This is used mainly for performance purposes.
+// Here NewPost component will not always be loaded in bundle.js and will only be loaded
+// when clicked
+import AsyncComponent from "../../hoc/asyncComponent";
+var AsyncNewPost = AsyncComponent(() => {
+  return import("./NewPost/NewPost");
+});
+// import NewPost from "../Blog/NewPost/NewPost";
+
 // import FullPost from "./FullPost/FullPost";
 
 class Blog extends Component {
@@ -57,7 +67,7 @@ class Blog extends Component {
           When user will click on new post it will go to "/" and then redirect 
           will redirect it to "/posts" page  */}
           {this.state.auth ? (
-            <Route path="/new-post" component={NewPost} />
+            <Route path="/new-post" component={AsyncNewPost} />
           ) : null}
           <Route path="/posts" component={Posts} />
 
