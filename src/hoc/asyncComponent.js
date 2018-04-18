@@ -1,5 +1,6 @@
 // This file contains the code of rendering the compoenent as per the requirment
 // and component will not always be loaded in bundle.js. This is used mainly for performance purposes.
+//lazy loading concept
 
 import React, { Component } from "react";
 

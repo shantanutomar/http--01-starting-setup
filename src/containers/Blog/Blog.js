@@ -8,6 +8,7 @@ import { Route, NavLink, Switch, Redirect } from "react-router-dom";
 // and will not always be loaded. This is used mainly for performance purposes.
 // Here NewPost component will not always be loaded in bundle.js and will only be loaded
 // when clicked
+//lazy loading concept
 import AsyncComponent from "../../hoc/asyncComponent";
 var AsyncNewPost = AsyncComponent(() => {
   return import("./NewPost/NewPost");
